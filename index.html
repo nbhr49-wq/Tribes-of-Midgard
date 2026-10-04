@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>古き記録 — Tribes of Midgard</title>
+<meta name="description" content="Tribes of Midgard プレイ記録">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600&family=Noto+Serif+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="site">
+  <section class="panel forest" id="forest">
+    <div class="veil"></div>
+    <div class="hero-copy">
+      <div class="brand">TRIBES<br><span>OF MIDGARD</span></div>
+      <div class="title">古の記録</div>
+    </div>
+    <button class="hotspot hotspot-forest" id="touchTablet">石板に触れる <span>⌄</span></button>
+  </section>
+
+  <section class="panel tablet-panel" id="tablet">
+    <div class="veil dark"></div>
+    <div class="tablet-copy">
+      <p>苔むした石板に<br>かすかに文字が浮かび上がる――</p>
+      <div class="runes">ᛏ ᚱ ᚨ ᛒ ᛖ ᛊ</div>
+    </div>
+    <button class="panel-action" id="readRecord">記録を読む</button>
+  </section>
+
+  <section class="panel record-panel" id="record">
+    <div class="paper">
+      <div class="record-no">第一の記録</div>
+      <p>この夜、我々は集い、<br>ミッドガルドの地へと向かった。<br>吹き荒れる巨人の脅威に抗い、<br>世界樹を守るために――。</p>
+      <p class="small">これは、その戦いの記録である。</p>
+      <button class="play-record" id="playRecord"><span>▶</span> 記録映像を再生する</button>
+    </div>
+  </section>
+
+  <section class="panel transition-panel" id="transition">
+    <div class="transition-copy">――そして<br><strong>記録は、映像へと続く――</strong></div>
+  </section>
+
+  <section class="panel video-panel" id="video">
+    <div class="video-ruin"></div>
+    <div class="video-vignette"></div>
+    <div class="video-label">ARCHIVE No. 001</div>
+    <div class="video-shell">
+      <div id="player"></div>
+    </div>
+    <button class="back" id="back">記録へ戻る</button>
+  </section>
+</div>
+
+<div class="blackout" id="blackout"></div>
+<script src="script.js"></script>
+</body>
+</html>
