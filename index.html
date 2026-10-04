@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tribes of Midgard — 古の記録</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main id="app">
+
+    <!-- Scene 1: the forest image -->
+    <section class="scene scene-forest active" id="forestScene">
+      <img src="01-forest.jpg" alt="森の中にある古びた石板" class="scene-image">
+      <button id="touchTablet" class="hotspot forest-hotspot" aria-label="石板に触れる"></button>
+    </section>
+
+    <!-- Scene 2: the tablet image + text that appears from the stone -->
+    <section class="scene scene-tablet" id="tabletScene" aria-hidden="true">
+      <img src="02-tablet.jpg" alt="苔むした古い石板" class="scene-image">
+
+      <div class="inscription" id="inscription" aria-live="polite">
+        <div class="inscription-heading">ここに英雄の名前を記す</div>
+        <div class="hero-name">taro senpen しかご ダイブさん</div>
+
+        <div class="record-lines">
+          <p>我々はミッドガルドへ向かった。</p>
+          <p>世界樹を守るため。</p>
+          <p>巨人を討つため。</p>
+          <p>そして――</p>
+        </div>
+
+        <button id="playRecord" class="record-button" type="button">
+          <span class="play-icon">▷</span>
+          <span>記録映像を見る</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- Video -->
+    <section class="video-scene" id="videoScene" aria-hidden="true">
+      <div class="video-inner">
+        <div class="video-title">―― 記録映像 ――</div>
+        <div class="video-shell">
+          <div id="player"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="fade" class="fade"></div>
+
+  <script>
+    const VIDEO_ID = "tNP8YYhGLWg";
+
+    const forestScene = document.getElementById("forestScene");
+    const tabletScene = document.getElementById("tabletScene");
+    const videoScene = document.getElementById("videoScene");
+    const fade = document.getElementById("fade");
+    const inscription = document.getElementById("inscription");
+
+    let player = null;
+    let playerReady = false;
+    let playWhenReady = false;
+
+    function fadeTo(callback, duration = 850) {
+      fade.classList.add("on");
+      setTimeout(() => {
+        callback();
+        setTimeout(() => fade.classList.remove("on"), 500);
+      }, duration);
+    }
+
+    document.getElementById("touchTablet").addEventListener("click", () => {
+      fadeTo(() => {
+        forestScene.classList.remove("active");
+        forestScene.setAttribute("aria-hidden", "true");
+        tabletScene.classList.add("active");
+        tabletScene.setAttribute("aria-hidden", "false");
+
+        // Let the stone settle before the inscription begins.
+        setTimeout(() => inscription.classList.add("reveal"), 450);
+      });
+    });
+
+    document.getElementById("playRecord").addEventListener("click", () => {
+      fade.classList.add("on");
+
+      setTimeout(() => {
+        videoScene.classList.add("visible");
+        videoScene.setAttribute("aria-hidden", "false");
+
+        setTimeout(() => {
+          fade.classList.remove("on");
+
+          if (playerReady) {
+            player.playVideo();
+          } else {
+            playWhenReady = true;
+          }
+        }, 600);
+      }, 1000);
+    });
+
+    // YouTube IFrame Player API
+    const tag = document.createElement("script");
+    tag.src = "https://www.youtube.com/iframe_api";
+    document.head.appendChild(tag);
+
+    window.onYouTubeIframeAPIReady = function () {
+      player = new YT.Player("player", {
+        videoId: VIDEO_ID,
+        playerVars: {
+          playsinline: 1,
+          rel: 0
+        },
+        events: {
+          onReady: function () {
+            playerReady = true;
+            if (playWhenReady) {
+              playWhenReady = false;
+              player.playVideo();
+            }
+          },
+          onAutoplayBlocked: function () {
+            // The video remains visible; the visitor can use YouTube's play control.
+            fade.classList.remove("on");
+          }
+        }
+      });
+    };
+  </script>
+</body>
+</html>
